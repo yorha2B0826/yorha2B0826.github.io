@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>枯荣的小站</title>
+  <title>async&#39;s Blog</title>
   
-  
+  <subtitle>古壁生凝尘，羁魂梦中语。</subtitle>
   <link href="https://async0826.me/atom.xml" rel="self"/>
   
   <link href="https://async0826.me/"/>
