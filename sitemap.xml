@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://async0826.me/2023/02/23/%E5%8E%8C%E6%81%B6%E7%9A%84%E4%B8%8E%E5%96%9C%E7%88%B1%E7%9A%84/</loc>
+    
+    <lastmod>2023-02-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://async0826.me/categories/index.html</loc>
     
     <lastmod>2023-02-07</lastmod>
@@ -40,11 +49,18 @@
 
   <url>
     <loc>https://async0826.me/</loc>
-    <lastmod>2023-02-10</lastmod>
+    <lastmod>2023-02-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>https://async0826.me/tags/%E9%9A%8F%E7%AC%94/</loc>
+    <lastmod>2023-02-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
 
   
