@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>单链表的一些基础操作 | async's Blog</title><meta name="author" content="async"><meta name="copyright" content="async"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="初学数据结构，首先接触的就是线性表，而最基本的线性表又可以通过单链表来进行实现。         本文的单链表使用了头节点的方式。（即第一个结点的数据域为空，指针域指向首节点）。         询问了ChatGPT后，我所得到的关于单链表的基本操作有以下几点：  创建一个空链表。  按值插入节点：在链表中插入一个新节点，该节点包含一个给定的值。  按位置插入节点：在链表中插入一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单链表的一些基础操作">
+<meta property="og:url" content="https://async0826.me/2023/03/06/%E5%8D%95%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="async&#39;s Blog">
+<meta property="og:description" content="初学数据结构，首先接触的就是线性表，而最基本的线性表又可以通过单链表来进行实现。         本文的单链表使用了头节点的方式。（即第一个结点的数据域为空，指针域指向首节点）。         询问了ChatGPT后，我所得到的关于单链表的基本操作有以下几点：  创建一个空链表。  按值插入节点：在链表中插入一个新节点，该节点包含一个给定的值。  按位置插入节点：在链表中插入一个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://async0826.me/img/2333.jpg">
+<meta property="article:published_time" content="2023-03-06T07:14:25.000Z">
+<meta property="article:modified_time" content="2023-03-06T08:16:50.146Z">
+<meta property="article:author" content="async">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://async0826.me/img/2333.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://async0826.me/2023/03/06/%E5%8D%95%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: async","link":"链接: ","source":"来源: async's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '单链表的一些基础操作',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-03-06 16:16:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="async's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/2333.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="async's Blog"><span class="site-name">async's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">单链表的一些基础操作</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-06T07:14:25.000Z" title="发表于 2023-03-06 15:14:25">2023-03-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-06T08:16:50.146Z" title="更新于 2023-03-06 16:16:50">2023-03-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="单链表的一些基础操作"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>        初学数据结构，首先接触的就是线性表，而最基本的线性表又可以通过单链表来进行实现。</p>
+<p>        本文的单链表使用了头节点的方式。（即第一个结点的数据域为空，指针域指向首节点）。</p>
+<p>        询问了ChatGPT后，我所得到的关于单链表的基本操作有以下几点：</p>
+<ol>
+<li><p>创建一个空链表。</p>
+</li>
+<li><p>按值插入节点：在链表中插入一个新节点，该节点包含一个给定的值。</p>
+</li>
+<li><p>按位置插入节点：在链表中插入一个新节点，该节点插入到指定的位置。</p>
+</li>
+<li><p>删除节点：删除链表中的一个节点，可以删除链表的头部、尾部或中间的一个节点。</p>
+</li>
+<li><p>修改节点：修改链表中一个节点的值。</p>
+</li>
+<li><p>查找节点：在链表中查找一个节点，可以根据节点的值或索引来查找。</p>
+</li>
+<li><p>获取节点：获取链表中指定位置的节点。</p>
+</li>
+<li><p>获取链表长度：获取链表中节点的个数。</p>
+</li>
+<li><p>清空链表：清空链表中的所有节点，使链表变为空链表。</p>
+</li>
+<li><p>判断链表是否为空。</p>
+</li>
+<li><p>遍历链表：遍历链表中的所有节点，可以按照顺序输出链表中的每个节点的值。</p>
+</li>
+<li><p>链表反转：将链表翻转，即原来的最后一个节点变成第一个节点，原来的第一个节点变成最后一个节点。</p>
+</li>
+<li><p>链表排序：将链表按照指定的规则进行排序。</p>
+</li>
+<li><p>合并链表：将两个链表合并成一个新的链表。</p>
+</li>
+<li><p>判断链表是否有环。</p>
+</li>
+</ol>
+<p>接下来我们通过代码具体实现。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">InitLinkList</span><span class="params">(Nodeptr *L)</span></span><br><span class="line">&#123;</span><br><span class="line">    *L = (Nodeptr)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</span><br><span class="line">    (*L)-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>        首先是初始化链表，此处笔者犯了一个很基本的错误，在传参部分最初传入了Nodeptr L而不是Nodeptr *L，可能大多数的初学者在自我尝试时也会犯这样的错误。直接传入节点的指针是无法对指针本身的值做出变化的，这是因为函数是不能改变传入的参数的值的，要想改变值，就要使用指针。初始化链表的目的是为了使用malloc函数在内存中申请一个节点的空间，并且将该节点的地址传入到头节点L中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">HeadCreate</span><span class="params">(Node *L, <span class="type">int</span> data)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    Node *new = (Nodeptr)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</span><br><span class="line">    new-&gt;data = data;</span><br><span class="line">    new-&gt;next = L-&gt;next;</span><br><span class="line">    L-&gt;next = new;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>        而后是使用头插法插入节点，在这里笔者学到的是为了保证安全性，最好每次传入一个节点的指针时都应该检查一下这个指针会不会指向NULL，以此来规避可能出现的内存访问错误。头插法的原理主要就是先申请一个空间，而后把你所需要的值传入。最后把新节点的指针域指向原头节点的指针域，而后把原头结点的指针域改为指向新节点。这样你每次新创建的值就会在头节点之后啦（不然你以为为什么会叫做头插法）。</p>
+<p>        而尾插法与头插法其实算是比较类似的，只不过要先找到最后的那个节点。可以通过</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (L-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">    L = L-&gt;next;</span><br></pre></td></tr></table></figure>
+
+<p>这种方式来寻找，然后把新节点的指针域指向NULL，把原尾节点的指针指向新节点。</p>
+<p>        而如果想要在任意位置插入节点进行查找，则可以通过设定具体的循环此处来进行。此处直接上代码，不再赘言。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Insert</span><span class="params">(Nodeptr L, <span class="type">int</span> locate, <span class="type">int</span> data)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    Nodeptr new = (Nodeptr)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</span><br><span class="line">    new-&gt;data = data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; locate - <span class="number">1</span>; i++)</span><br><span class="line">        L = L-&gt;next;</span><br><span class="line">    new-&gt;next = L-&gt;next;</span><br><span class="line">    L-&gt;next = new;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>        接下来是删除节点。想要删除一个节点，需要先找到被删除节点的前一个节点，将被删除节点的前一个结点指向删除结点的下一个节点，而后使用free()函数释放掉被删除节点的内存以此来达到删除的目的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">DeleteNode</span><span class="params">(Nodeptr L, <span class="type">int</span> locate)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    Nodeptr pre;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; locate; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        pre = L;</span><br><span class="line">        L = L-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    pre-&gt;next = L-&gt;next;</span><br><span class="line">    <span class="built_in">free</span>(L);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>        想要改变节点的值，这里有两种方式，第一种是通过数据域的数值来查找，第二种是通过节点的位置来查找。不过其实大同小异。要改变节点的值，首先要找到这个要被改变的节点，第一种直接通过对比数据域来查找就好，不过只能找到第一个与查找数据域相同的；而第二种通过位置来查找的则与上文提到的任意位置插入的方案一样。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过数据来查找</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">ChangeNode_num</span><span class="params">(Nodeptr L, <span class="type">int</span> change, <span class="type">int</span> before)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    Nodeptr P;</span><br><span class="line">    <span class="keyword">for</span> (P = L; P-&gt;data != before; P = P-&gt;next)</span><br><span class="line">        ;</span><br><span class="line">    P-&gt;data = change;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//通过位置来查找</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">ChangeNode_locate</span><span class="params">(Nodeptr L, <span class="type">int</span> locate, <span class="type">int</span> change)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; locate; i++)</span><br><span class="line">        L = L-&gt;next;</span><br><span class="line">    L-&gt;data = change;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>        获取节点其实就是在查找节点的基础上返回节点的指针。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Nodeptr <span class="title function_">GetNode_num</span><span class="params">(Nodeptr L, <span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    Nodeptr P;</span><br><span class="line">    <span class="keyword">for</span> (P = L; P-&gt;data != num; P = P-&gt;next);</span><br><span class="line">        retur</span><br><span class="line">n P;</span><br><span class="line">&#125;<span class="comment">//tips：此处的问题还是只能够返回多个相同值中第一个值的结点。</span></span><br><span class="line"></span><br><span class="line">Nodeptr <span class="title function_">GetNode_locate</span><span class="params">(Nodeptr L, <span class="type">int</span> locate)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; locate; i++)</span><br><span class="line">        L = L-&gt;next;</span><br><span class="line">    <span class="keyword">return</span> L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>获取结点的长度也很简单，只需要通过遍历整个链表，然后每次经过一个节点使用一个变量加上一就好。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">GetLength</span><span class="params">(Nodeptr L)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; L-&gt;next != <span class="literal">NULL</span>; i++, L = L-&gt;next)</span><br><span class="line">        ;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://async0826.me">async</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://async0826.me/2023/03/06/%E5%8D%95%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/">https://async0826.me/2023/03/06/%E5%8D%95%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://async0826.me" target="_blank">async's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></div><div class="post_share"><div class="social-share" data-image="/img/2333.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/03/05/%E4%B8%8D%E6%84%BF%E6%84%8F%E5%AE%89%E4%BA%8E%E7%8E%B0%E7%8A%B6%E7%9A%84/" title="不愿意安于现状的"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">不愿意安于现状的</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/2333.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">async</div><div class="author-info__description">与谁同坐，清风明月我。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yorha2B0826"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/youha2B0826" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:azg@office365us.me" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://twitter.com/YoRHa_No2TypeE" target="_blank" title="Twitter"><i class="fa-brands fa-twitter"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的世界，在这里主要和大家分享我的阅读笔记，电影观后感（暂且不能称之为影评（笑））以及一些生活感悟和一些IT技术文章。😊</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/03/06/%E5%8D%95%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" title="单链表的一些基础操作">单链表的一些基础操作</a><time datetime="2023-03-06T07:14:25.000Z" title="发表于 2023-03-06 15:14:25">2023-03-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/03/05/%E4%B8%8D%E6%84%BF%E6%84%8F%E5%AE%89%E4%BA%8E%E7%8E%B0%E7%8A%B6%E7%9A%84/" title="不愿意安于现状的">不愿意安于现状的</a><time datetime="2023-03-05T06:46:11.000Z" title="发表于 2023-03-05 14:46:11">2023-03-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/23/%E5%8E%8C%E6%81%B6%E7%9A%84%E4%B8%8E%E5%96%9C%E7%88%B1%E7%9A%84/" title="厌恶的与喜爱的">厌恶的与喜爱的</a><time datetime="2023-02-23T15:34:40.000Z" title="发表于 2023-02-23 23:34:40">2023-02-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By async</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Welcome to my world!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
