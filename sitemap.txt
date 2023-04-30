@@ -1,3 +1,4 @@
+https://async0826.me/2023/04/30/DisjointSets/
 https://async0826.me/2023/04/29/renew/
 https://async0826.me/2023/03/27/%E6%88%91%E4%B9%9F%E6%83%B3%E6%9C%89%E4%BA%BA%E9%99%AA%E6%88%91%E6%89%93%E5%BC%80%E9%82%A3%E6%89%87%E9%97%A8/
 https://async0826.me/2023/03/19/dolorem%20exprimit%20quia%20movit%20amorem/
@@ -12,3 +13,4 @@ https://async0826.me/tags/index.html
 https://async0826.me/
 https://async0826.me/tags/%E9%9A%8F%E7%AC%94/
 https://async0826.me/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/
+https://async0826.me/tags/cs61b/
