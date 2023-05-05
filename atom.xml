@@ -6,7 +6,7 @@
   <link href="https://async0826.me/atom.xml" rel="self"/>
   
   <link href="https://async0826.me/"/>
-  <updated>2023-04-30T13:51:05.524Z</updated>
+  <updated>2023-03-19T15:17:16.002Z</updated>
   <id>https://async0826.me/</id>
   
   <author>
@@ -15,78 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>DisjointSets</title>
-    <link href="https://async0826.me/2023/04/30/DisjointSets/"/>
-    <id>https://async0826.me/2023/04/30/DisjointSets/</id>
-    <published>2023-04-30T13:28:21.000Z</published>
-    <updated>2023-04-30T13:51:05.524Z</updated>
-    
-    <content type="html"><![CDATA[<p>非相交集是指两个没有元素相同的集合。主要的操作有连接和判断是否连接。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">DisjoinSets</span>&#123;</span><br><span class="line"><span class="keyword">void</span> <span class="title function_">connect</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> q)</span>;</span><br><span class="line"><span class="type">boolean</span> <span class="title function_">isConnected</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> q)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>例如：<br><img src="/_photos/Pastedimage20230430195100.png" alt="Pasted image 20230430195100.png">此时的A B C D就是一个没有连接的状态，但是在调用了函数connect(A, B)以后：<br><img src="/_photos/Pastedimage20230430195326.png" alt="Pasted image 20230430195326.png">再去通过isConnected函数来检测，结果就会是true。</p><h2 id="快速判定"><a href="#快速判定" class="headerlink" title="快速判定"></a>快速判定</h2><p>但是要如何对其进行抽象化定义就成了一个问题，在此我们可以通过一个数组来当作案例：<br>数组的下标代表的是数字，数组中的内容相同代表着这些元素在同一个Set中：<br><img src="/_photos/Pastedimage20230430195618.png" alt="Pasted image 20230430195618.png">当我们要connect的时候，只需要把对应的数组中的值修改成相同的函数即可。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">QuickFindDS</span> <span class="keyword">implements</span> <span class="title class_">DisjointSets</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[] id;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Θ(N) */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">QuickFindDS</span><span class="params">(<span class="type">int</span> N)</span>&#123;</span><br><span class="line">        id = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++)&#123;</span><br><span class="line">            id[i] = i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* need to iterate through the array =&gt; Θ(N) */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">connect</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> q)</span>&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">pid</span> <span class="operator">=</span> id[p];</span><br><span class="line">        <span class="type">int</span> <span class="variable">qid</span> <span class="operator">=</span> id[q];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; id.length; i++)&#123;</span><br><span class="line">            <span class="keyword">if</span> (id[i] == pid)&#123;</span><br><span class="line">                id[i] = qid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Θ(1) */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isConnected</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> q)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (id[p] == id[q]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>但是这样还有一个问题，我们仅仅只能够通过这些来判断它们在同一个Set中，而无法知道他们的连接方式。</p><h2 id="Quick-Union"><a href="#Quick-Union" class="headerlink" title="Quick Union"></a>Quick Union</h2><p>为了能够明白他们的连接方式，我们可以引进Tree的概念：![[Pasted image 20230430200010.png]]<br>-1代表的是树的根，而子树元素的值相当于指向父母的指针，例如1是0的子树，那么id 1 的值就是0；通过这种方式我们可以很好地弄清他们的连接方式，同时又能够知道每个Set里面分别是什么。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">QuickUnionDS</span> <span class="keyword">implements</span> <span class="title class_">DisjointSets</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[] parent;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">QuickUnionDS</span><span class="params">(<span class="type">int</span> num)</span> &#123;</span><br><span class="line">        parent = <span class="keyword">new</span> <span class="title class_">int</span>[num];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; num; i++) &#123;</span><br><span class="line">            parent[i] = -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> p)</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (parent[p] &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            p = parent[p];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">connect</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> q)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> find(p);</span><br><span class="line">        <span class="type">int</span> j= find(q);</span><br><span class="line">        parent[i] = j;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isConnected</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> q)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> find(p) == find(q);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><p>当我们调用connect方法时，我们总是把较小的树连接到更大的树。这样才能够保证树不会越来越深，![[Pasted image 20230430210454.png]]<br>选择2的策略比选择1的策略要更好。<br>同时我们还可以通过路径压缩的方式来减小时间复杂度：![[Pasted image 20230430210731.png]]<br>![[Pasted image 20230430210740.png]]<br>![[Pasted image 20230430210749.png]]<br>![[Pasted image 20230430210813.png]]<br>![[Pasted image 20230430210820.png]]<br>以此来控制树的深度。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;非相交集是指两个没有元素相同的集合。主要的操作有连接和判断是否连接。&lt;/p&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;</summary>
-      
-    
-    
-    
-    
-    <category term="cs61b" scheme="https://async0826.me/tags/cs61b/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>renew</title>
-    <link href="https://async0826.me/2023/04/29/renew/"/>
-    <id>https://async0826.me/2023/04/29/renew/</id>
-    <published>2023-04-29T14:30:07.000Z</published>
-    <updated>2023-04-29T14:40:42.730Z</updated>
-    
-    <content type="html"><![CDATA[<p>        五一。</p><p>        已经一个月没有写过博客了呢。换了新电脑以后似乎就抛开了阅读。</p><p>        开始看一些意义不大的短视频。有点接受了活在当下的想法。对未来的规划开始崩塌。</p><p>        有时候会想着，毕竟只能活一次呢。为什么不去享受更好的呢。于是消费主义与拜物主义把我销蚀。</p><p>        虽然游戏和电影一样，似乎都是我用最短的时间去感受别人的世界的一个工具。但是我的现实因为这些改变了吗。回忆起来似乎只有不值得。我痛恨我自己的消弭。</p><p>        越到高考就会越想起一年前发生的种种，以前的人有多亲密现在就有多害怕。但你的现在那位也是很搞笑呢，为什么还要假装没有在一起呢。我当然不会祝福你们，我会对你们的感情赋以最深的诅咒。</p><p>        并没有renew。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;        五一。&lt;/p&gt;
-&lt;p&gt;        已经一个月没有写过博客了呢。换了新电脑以后似乎就抛开了阅读。&lt;/p&gt;
-&lt;p&gt;        开始看一些意义不大的短视频。有点接受了活在当下的想法。对未来的规划开始崩塌。&lt;/p&gt;
-&lt;p&gt;        有时候会想着，毕竟只</summary>
-      
-    
-    
-    
-    
-    <category term="随笔" scheme="https://async0826.me/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>我也想有人陪我打开那扇门</title>
-    <link href="https://async0826.me/2023/03/27/%E6%88%91%E4%B9%9F%E6%83%B3%E6%9C%89%E4%BA%BA%E9%99%AA%E6%88%91%E6%89%93%E5%BC%80%E9%82%A3%E6%89%87%E9%97%A8/"/>
-    <id>https://async0826.me/2023/03/27/%E6%88%91%E4%B9%9F%E6%83%B3%E6%9C%89%E4%BA%BA%E9%99%AA%E6%88%91%E6%89%93%E5%BC%80%E9%82%A3%E6%89%87%E9%97%A8/</id>
-    <published>2023-03-27T15:49:03.000Z</published>
-    <updated>2023-03-27T16:10:59.957Z</updated>
-    
-    <content type="html"><![CDATA[<p>        上周什么都没有写。</p><p>        因为大部分的时间都去看了电影。即便还是和以前一样是一个人。</p><p>        最近真的很喜欢一个人的感觉。一个人去图书馆，一个人去到处走走，一个人在电影院，一个人走在大街上。不用考虑别人对自己的看法，也不用去思考下一步要往哪里走，随眼所见即是风景。</p><p>        好像还是逃不掉换季就会感冒的魔咒。说难受其实也没有那么难受，毕竟已经经验丰富了呢（笑），起初还会担心会不会是甲流或者是新冠，但目前看来大概是多虑了。</p><p>        去看了《铃芽之旅》，还是那个很熟悉的新海诚。今天在某站上刷了很多关于自然灾害的视频。就算是再科技如此发达的今天，面对自然我们还是逃不掉。但来了四川以后感觉地震似乎也就那么回事（可能还只是没有碰到灾害比较大的时候，也希望这辈子都不要遇到）。</p><p>        感冒的自己还是会跟高中一样很容易暴躁很容易生气，又突然间想起来高中的时候，还在跟她做同桌。自己因为一生病就掌控不好情绪跟她斗气，然后请假回家的那个下午小心翼翼地留下给她道歉的小纸条。</p><p>        突然间就难过起来了呢。但是那段时光已经永远都回不去了。即使你以前真的真的真的很喜欢她。但是真的已经结束了呢。</p><p>        已经无数遍这样子告诉过自己了吧。但好像也因为她，你对感情已经不再抱有任何期待。毕竟好像最后都是会分开的吧。</p><p>        上周也没有看书，毕竟真的都用来看电影了呃（笑）。虽然已经不知道下一本该看什么了。</p><p>        最近对于代码什么的不是很敏感，一心一意都在关注AI的发展以及初步的落地应用。虽然目前来说还只是一个大型的语言模型。但真的比大多数人都要更加聪明了呢。</p><p>        所以你也不能怠惰呢，起码要把学校教的东西啃明白，至于别的乱七八糟的任何事情和任何人，都见鬼去吧。。。</p><p>        所以随笔最后就是碎碎念。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;        上周什么都没有写。&lt;/p&gt;
-&lt;p&gt;        因为大部分的时间都去看了电影。即便还是和以前一样是一个人。&lt;/p&gt;
-&lt;p&gt;        最近真的很喜欢一个人的感觉。一个人去图书馆，一个人去到处走走，一个人在电影院，一个人走在大街上。不用考虑别人对自己的看</summary>
-      
-    
-    
-    
-    
-    <category term="随笔" scheme="https://async0826.me/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
   
   <entry>
     <title>“dolorem exprimit quia movit amorem.”</title>
